@@ -74,18 +74,33 @@
     </div>
 
     <p>Tacos {{meatQuantity == 0 ? 'Végétarien' : meatQuantity}} viandes, {{sauceQuantity}} sauce et {{supplementQuantity}} suppléments</p>
-    <button type="button" class="" id="btn-generate" (click)="onGenerate()">Générer</button>
+    <button type="button" class="btn-generate-tacos" id="btn-generate" (click)="onGenerate()">Générer</button>
     
 </div>
 
 <div class="tacos-list">
     Tacos généré{{tacosList.length > 1 ? 's' : ''}}:
-    <div class="tacos-item" *ngFor="let tacos of tacosList" id="{{tacos.id}}">
-        <b>{{tacos.eater | uppercase}}: </b> 
-        <span *ngFor="let meat of tacos.meats">{{meat.name}} </span>
-        ,<b> sauce{{tacos.sauces.length > 1 ? 's' : ''}} </b>
-        <span *ngFor="let sauce of tacos.sauces">{{sauce.name}} </span>
-        ,<b *ngIf="tacos.supplements.length > 0"> supplément{{tacos.supplements.length > 1 ? 's' : ''}} </b>
-        <span *ngFor="let supplement of tacos.supplements">{{supplement.name}} </span>
-    </div>
+    <table>
+        <tbody>
+            <tr *ngFor="let tacos of tacosList" id="{{tacos.id}}" class="tacos-list-item">
+                <td>
+                    <b>{{tacos.eater | uppercase}}</b>
+                </td>
+                <td>
+                    <span *ngFor="let meat of tacos.meats; last as isLast">{{meat.name}}{{isLast ? '' : ', '}}</span>
+                </td>
+                <td>
+                    <span *ngFor="let sauce of tacos.sauces; last as isLast">{{sauce.name}}{{isLast ? '' : ', '}}</span>
+                </td>
+                <td>
+                    <span *ngFor="let supplement of tacos.supplements; last as isLast">{{supplement.name}}{{isLast ? '' : ', '}}</span>
+                </td>
+                <td>
+                    <button type="button" class="btn-regenerate-tacos" id="" (click)="onRegenerate(tacos.id)">Regénérer</button>
+                    &nbsp;
+                    <button type="button" class="btn-remove-tacos" id="" (click)="onRemove(tacos.id)">Supprimer</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

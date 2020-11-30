@@ -103,4 +103,14 @@ export class TacosComponent implements OnInit {
     console.log("Tacos généré !");
     
   }
+
+  onRegenerate(tacosId: number): void {
+    console.log("Regenerate");
+     
+  }
+
+  onRemove(tacosId: number): void {
+    console.log("Removing");
+    
+  }
 }
