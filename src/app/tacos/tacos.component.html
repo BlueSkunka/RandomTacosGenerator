@@ -79,12 +79,12 @@
 </div>
 
 <div class="tacos-list">
-    Tacos généré{{tacosList.length > 1 ? 's' : ''}}:
+    Tacos généré{{tacosList.length > 1 ? 's' : ''}}: {{tacosIndex}}
     <table>
         <tbody>
             <tr *ngFor="let tacos of tacosList" id="{{tacos.id}}" class="tacos-list-item">
                 <td>
-                    <b>{{tacos.eater | uppercase}}</b>
+                    <b>{{tacos.eater | uppercase}} - {{tacos.id}}</b>
                 </td>
                 <td>
                     <span *ngFor="let meat of tacos.meats; last as isLast">{{meat.name}}{{isLast ? '' : ', '}}</span>

@@ -25,32 +25,32 @@ export class TacosComponent implements OnInit {
   sauces = SAUCES;
   supplements = SUPPLEMENTS;
 
-  meatQuantity: number;
-  sauceQuantity: number;
-  supplementQuantity: number;
+  meatQuantity: number = 2;
+  sauceQuantity: number = 2;
+  supplementQuantity: number = 1;
 
+  tacosIndex: number = 0;
   tacosList: Tacos[] = [];
 
-  constructor(private _elRef: ElementRef) { 
-    this.meatQuantity = 2;
-    this.sauceQuantity = 2;
-    this.supplementQuantity = 1;
-  }
+  constructor(private _elRef: ElementRef) { }
 
   ngOnInit(): void {
   }
 
   onGenerate(): void {
-    this.tacosList.push(this.getRandomTacos());
+    let tacos = this.getRandomTacos();
+
+    this.tacosList.splice(tacos.id, 0, tacos);
+    this.tacosIndex++;
   }
 
   getRandomTacos(): Tacos {
     let tacos: Tacos = {
-      'id': this.tacosList.length,
+      'id': this.tacosIndex,
       'eater': this.getEater(),
-      'meats': this.getRandomMeats(),
-      'sauces': this.getRandomSauces(),
-      'supplements': this.getRandomSupplements()
+      'meats': this.getRandomMeats(this.meatQuantity),
+      'sauces': this.getRandomSauces(this.sauceQuantity),
+      'supplements': this.getRandomSupplements(this.supplementQuantity)
     };
 
     return tacos;
@@ -65,14 +65,14 @@ export class TacosComponent implements OnInit {
     return eater;
   }
 
-  getRandomMeats(): Meat[] {
+  getRandomMeats(max: number, isVege: boolean = false): Meat[] {
     let meats: Meat[] = [];
     let i: number = 0;
 
-    if (this.meatQuantity == 0) {
+    if (max == 0 || isVege) {
       meats.push(this.meats[0]); 
     } else {
-      while (i < this.meatQuantity) {
+      while (i < max) {
         let meat: Meat = this.meats[Math.floor(Math.random() * this.meats.length)];
         if (!meats.includes(meat)) {
           meats.push(meat);
@@ -84,11 +84,11 @@ export class TacosComponent implements OnInit {
     return meats;
   }
 
-  getRandomSauces(): Sauce[] {
+  getRandomSauces(max: number): Sauce[] {
     let sauces: Sauce[] = [];
     let i: number = 0;
 
-    while (i < this.sauceQuantity) {
+    while (i < max) {
       let sauce: Sauce = this.sauces[Math.floor(Math.random() * this.sauces.length)];
       if (!sauces.includes(sauce)) {
         sauces.push(sauce);
@@ -99,11 +99,11 @@ export class TacosComponent implements OnInit {
     return sauces;
   }
 
-  getRandomSupplements(): Supplement[] {
+  getRandomSupplements(max: number): Supplement[] {
     let supplements: Supplement[] = [];
     let i: number = 0;
     
-    while (i < this.supplementQuantity) {
+    while (i < max) {
       let supplement: Supplement = this.supplements[Math.floor(Math.random() * this.supplements.length)];
       if (!supplements.includes(supplement)) {
         supplements.push(supplement);
@@ -115,12 +115,23 @@ export class TacosComponent implements OnInit {
   }
 
   onRegenerate(tacosId: number): void {
-    console.log("Regenerate");
-     
+    let tacos = this.tacosList[tacosId];
+
+    tacos.meats = this.getRandomMeats(tacos.meats.length, (tacos.meats[0].id == 0 && tacos.meats.length < 2 ? true : false));
+    tacos.sauces = this.getRandomSauces(tacos.sauces.length);
+    tacos.supplements = this.getRandomSupplements(tacos.supplements.length);
+
+    this.tacosList.splice(tacosId, 1, tacos);  
   }
 
   onRemove(tacosId: number): void {
-    console.log("Removing");
-    
+    this.tacosList.splice(tacosId, 1);
+
+    this.tacosList.forEach( (tacos) => {
+      if (tacos.id > tacosId) {
+        tacos.id--;
+        this.tacosIndex--;
+      }
+    })
   }
 }
