@@ -41,20 +41,34 @@ export class TacosComponent implements OnInit {
   }
 
   onGenerate(): void {
-    // Init
-    let i: number = 0;
+    this.tacosList.push(this.getRandomTacos());
+  }
 
-    let meats: Meat[] = [];
-    let sauces: Sauce[] = [];
-    let supplements: Supplement[] = [];
+  getRandomTacos(): Tacos {
+    let tacos: Tacos = {
+      'id': this.tacosList.length,
+      'eater': this.getEater(),
+      'meats': this.getRandomMeats(),
+      'sauces': this.getRandomSauces(),
+      'supplements': this.getRandomSupplements()
+    };
 
-    // Eater
+    return tacos;
+  }
+
+  getEater(): string {
     let eater = this._elRef.nativeElement.querySelector('#eater').value;
     if (eater == "") {
       eater = "Michel";
     }
 
-    // Meat
+    return eater;
+  }
+
+  getRandomMeats(): Meat[] {
+    let meats: Meat[] = [];
+    let i: number = 0;
+
     if (this.meatQuantity == 0) {
       meats.push(this.meats[0]); 
     } else {
@@ -67,9 +81,13 @@ export class TacosComponent implements OnInit {
       }
     }
 
-    i = 0;
-    
-    // Sauce
+    return meats;
+  }
+
+  getRandomSauces(): Sauce[] {
+    let sauces: Sauce[] = [];
+    let i: number = 0;
+
     while (i < this.sauceQuantity) {
       let sauce: Sauce = this.sauces[Math.floor(Math.random() * this.sauces.length)];
       if (!sauces.includes(sauce)) {
@@ -78,9 +96,13 @@ export class TacosComponent implements OnInit {
       }
     }
 
-    i = 0;
+    return sauces;
+  }
 
-    // Supplément
+  getRandomSupplements(): Supplement[] {
+    let supplements: Supplement[] = [];
+    let i: number = 0;
+    
     while (i < this.supplementQuantity) {
       let supplement: Supplement = this.supplements[Math.floor(Math.random() * this.supplements.length)];
       if (!supplements.includes(supplement)) {
@@ -89,19 +111,7 @@ export class TacosComponent implements OnInit {
       }
     }
 
-    // Tacos
-    let tacos: Tacos = {
-      'id': this.tacosList.length,
-      'eater': eater,
-      'meats': meats,
-      'sauces': sauces,
-      'supplements': supplements
-    };
-
-    this.tacosList.push(tacos);
-
-    console.log("Tacos généré !");
-    
+    return supplements;
   }
 
   onRegenerate(tacosId: number): void {
