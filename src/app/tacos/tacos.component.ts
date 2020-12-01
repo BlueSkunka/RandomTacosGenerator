@@ -25,9 +25,9 @@ export class TacosComponent implements OnInit {
   sauces = SAUCES;
   supplements = SUPPLEMENTS;
 
-  meatQuantity: number = 2;
-  sauceQuantity: number = 2;
-  supplementQuantity: number = 1;
+  meatQuantity!: string;
+  sauceQuantity!: string;
+  supplementQuantity!: string;
 
   tacosIndex: number = 0;
   tacosList: Tacos[] = [];
@@ -35,6 +35,9 @@ export class TacosComponent implements OnInit {
   constructor(private _elRef: ElementRef) { }
 
   ngOnInit(): void {
+    this.meatQuantity = "2";
+    this.sauceQuantity = "2";
+    this.supplementQuantity = "1";
   }
 
   onGenerate(): void {
@@ -48,9 +51,9 @@ export class TacosComponent implements OnInit {
     let tacos: Tacos = {
       'id': this.tacosIndex,
       'eater': this.getEater(),
-      'meats': this.getRandomMeats(this.meatQuantity),
-      'sauces': this.getRandomSauces(this.sauceQuantity),
-      'supplements': this.getRandomSupplements(this.supplementQuantity)
+      'meats': this.getRandomMeats(+this.meatQuantity),
+      'sauces': this.getRandomSauces(+this.sauceQuantity),
+      'supplements': this.getRandomSupplements(+this.supplementQuantity)
     };
 
     return tacos;

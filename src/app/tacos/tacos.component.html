@@ -12,7 +12,7 @@
             </div>
 
             <div>
-                <input type="radio" name="meat-quantity" id="meat-two" value="2" [(ngModel)]="meatQuantity">
+                <input type="radio" name="meat-quantity" id="meat-two" value="2" [(ngModel)]="meatQuantity" [checked]="true">
                 <label for="meat-two">2</label>
             </div>
 
@@ -37,7 +37,7 @@
             </div>
 
             <div>
-                <input type="radio" name="sauce-quantity" id="sauce-two" value="2" [(ngModel)]="sauceQuantity">
+                <input type="radio" name="sauce-quantity" id="sauce-two" value="2" [(ngModel)]="sauceQuantity" checked>
                 <label for="sauce-two">2</label>
             </div>
 
@@ -71,9 +71,9 @@
                 <label for="supplement-three">3</label>
             </div>
         </div>
-    </div>
+    </div> 
 
-    <p>Tacos {{meatQuantity == 0 ? 'Végétarien' : meatQuantity}} viandes, {{sauceQuantity}} sauce et {{supplementQuantity}} suppléments</p>
+    <p>Tacos {{meatQuantity == "0" ? 'Végétarien' : meatQuantity}} viandes, {{sauceQuantity}} sauce et {{supplementQuantity}} suppléments</p>
     <button type="button" class="btn-generate-tacos" id="btn-generate" (click)="onGenerate()">Générer</button>
     
 </div>
