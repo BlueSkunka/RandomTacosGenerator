@@ -130,11 +130,15 @@ export class TacosComponent implements OnInit {
   onRemove(tacosId: number): void {
     this.tacosList.splice(tacosId, 1);
 
-    this.tacosList.forEach( (tacos) => {
-      if (tacos.id > tacosId) {
-        tacos.id--;
-        this.tacosIndex--;
-      }
+    this.resetAllTacosId();
+  }
+
+  resetAllTacosId() {
+    this.tacosIndex = 0;
+
+    this.tacosList.forEach((tacos) => {
+      tacos.id = this.tacosIndex;
+      this.tacosIndex++;
     })
   }
 }
