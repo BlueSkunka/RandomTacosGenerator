@@ -41,10 +41,14 @@ export class TacosComponent implements OnInit {
   }
 
   onGenerate(): void {
-    let tacos = this.getRandomTacos();
+    if (this.isQuantityValid()) {
+      let tacos = this.getRandomTacos();
 
-    this.tacosList.splice(tacos.id, 0, tacos);
-    this.tacosIndex++;
+      this.tacosList.splice(tacos.id, 0, tacos);
+      this.tacosIndex++;
+    } else {
+      this.displayQuantityError();
+    }
   }
 
   getRandomTacos(): Tacos {
@@ -77,7 +81,7 @@ export class TacosComponent implements OnInit {
     } else {
       while (i < max) {
         let meat: Meat = this.meats[Math.floor(Math.random() * this.meats.length)];
-        if (!meats.includes(meat)) {
+        if (!meats.includes(meat) && meat.enabled) {
           meats.push(meat);
           i++;
         }
@@ -93,7 +97,7 @@ export class TacosComponent implements OnInit {
 
     while (i < max) {
       let sauce: Sauce = this.sauces[Math.floor(Math.random() * this.sauces.length)];
-      if (!sauces.includes(sauce)) {
+      if (!sauces.includes(sauce) && sauce.enabled) {
         sauces.push(sauce);
         i++;
       }
@@ -108,7 +112,7 @@ export class TacosComponent implements OnInit {
     
     while (i < max) {
       let supplement: Supplement = this.supplements[Math.floor(Math.random() * this.supplements.length)];
-      if (!supplements.includes(supplement)) {
+      if (!supplements.includes(supplement) && supplement.enabled) {
         supplements.push(supplement);
         i++;
       }
@@ -140,5 +144,38 @@ export class TacosComponent implements OnInit {
       tacos.id = this.tacosIndex;
       this.tacosIndex++;
     })
+  }
+
+  enableIngredient(list: string, id: number) {
+    switch (list) {
+      case "meats":
+        this.meats[id].enabled = (this.meats[id].enabled ? false : true);
+        break;
+    
+      case "sauces":
+        this.sauces[id].enabled = (this.sauces[id].enabled ? false : true);
+        break;
+
+      case "supplements":
+        this.supplements[id].enabled = (this.supplements[id].enabled ? false : true);
+        break;
+    }
+  }
+
+  isQuantityValid(): boolean {
+    if (+this.meatQuantity > this.meats.filter(meat => meat.enabled).length)
+      return false;
+
+    if (+this.sauceQuantity > this.sauces.filter(sauce => sauce.enabled).length)
+      return false;
+
+    if (+this.supplementQuantity > this.supplements.filter(supplement => supplement.enabled).length)
+      return false;
+    
+    return true;
+  }
+
+  displayQuantityError(): void {
+    window.alert("Le nombre d'ingrédient dans votre tacos doit être inférieur ou égal au nombre d'ingrédients activés dans la liste.");
   }
 }
