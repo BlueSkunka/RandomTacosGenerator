@@ -2,6 +2,9 @@
   "name": "random-tacos-generator",
   "version": "0.0.0",
   "scripts": {
+    "android": "ns run android --no-hmr",
+    "ios": "ns run ios --no-hmr",
+    "mobile": "ns run",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -11,6 +14,11 @@
   },
   "private": true,
   "dependencies": {
+    "@nativescript/angular": "~10.1.0",
+    "@nativescript/core": "~7.0.0",
+    "@nativescript/theme": "~2.5.0",
+    "reflect-metadata": "~0.1.12",
+    "tslib": "^2.0.0",
     "@angular/animations": "^11.0.2",
     "@angular/cdk": "^8.2.3",
     "@angular/common": "~11.0.1",
@@ -23,13 +31,16 @@
     "@angular/router": "~11.0.1",
     "hammerjs": "^2.0.8",
     "rxjs": "~6.6.0",
-    "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.2",
     "@angular/cli": "~11.0.2",
     "@angular/compiler-cli": "~11.0.1",
+    "@nativescript/android": "7.0.1",
+    "@nativescript/schematics": "^11.0.0",
+    "@nativescript/tslint-rules": "~0.0.5",
+    "@nativescript/webpack": "~3.0.0",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
@@ -44,5 +55,6 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
-  }
+  },
+  "main": "main.tns.js"
 }

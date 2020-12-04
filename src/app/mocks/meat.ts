@@ -13,4 +13,6 @@ export const MEATS: Meat[] = [
     { id: 6, name: 'Thon'},
     { id: 7, name: 'Merguez'},
     { id: 8, name: 'Kébab'},
+    { id: 9, name: 'Cordon bleu'},
+    { id: 10, name: 'Poisson'}
 ]
