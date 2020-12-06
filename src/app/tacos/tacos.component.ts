@@ -1,6 +1,7 @@
 // Angular Imports
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { from } from 'rxjs';
 import { Meat } from '../class/meat';
 import { Sauce } from '../class/sauce';
 import { Supplement } from '../class/supplement';
@@ -11,8 +12,9 @@ import { Tacos } from './../class/tacos';
 // Mock import
 import { MEATS } from './../mocks/meat';
 import { SAUCES } from './../mocks/sauce';
-import { SUPPLEMENTS } from './../mocks/supplement';
-
+import { SUPPLEMENTSCHEESE } from './../mocks/supplementsCheese';
+import { SUPPLEMENTSMEAT } from './../mocks/supplementsMeat';
+import { SUPPLEMENTSVEGETAL } from './../mocks/supplementsVegetal';
 
 @Component({
   selector: 'app-tacos',
@@ -23,11 +25,15 @@ export class TacosComponent implements OnInit {
 
   meats = MEATS;
   sauces = SAUCES;
-  supplements = SUPPLEMENTS;
+  supplementsCheese = SUPPLEMENTSCHEESE;
+  supplementsMeat = SUPPLEMENTSMEAT;
+  supplementsVegetal = SUPPLEMENTSVEGETAL;
 
   meatQuantity!: string;
   sauceQuantity!: string;
-  supplementQuantity!: string;
+  supplementCheeseQuantity!: string;
+  supplementMeatQuantity!: string;
+  supplementVegetalQuantity!: string;
 
   tacosIndex: number = 0;
   tacosList: Tacos[] = [];
@@ -37,7 +43,9 @@ export class TacosComponent implements OnInit {
   ngOnInit(): void {
     this.meatQuantity = "2";
     this.sauceQuantity = "2";
-    this.supplementQuantity = "1";
+    this.supplementCheeseQuantity = "0";
+    this.supplementMeatQuantity = "0";
+    this.supplementVegetalQuantity = "0";
   }
 
   onGenerate(): void {
@@ -57,7 +65,9 @@ export class TacosComponent implements OnInit {
       'eater': this.getEater(),
       'meats': this.getRandomMeats(+this.meatQuantity),
       'sauces': this.getRandomSauces(+this.sauceQuantity),
-      'supplements': this.getRandomSupplements(+this.supplementQuantity)
+      'supplementsCheese': this.getRandomSupplementsCheese(+this.supplementCheeseQuantity),
+      'supplementsMeat': this.getRandomSupplementsMeat(+this.supplementMeatQuantity),
+      'supplementsVegetal': this.getRandomSupplementsVegetal(+this.supplementVegetalQuantity)
     };
 
     return tacos;
@@ -106,12 +116,42 @@ export class TacosComponent implements OnInit {
     return sauces;
   }
 
-  getRandomSupplements(max: number): Supplement[] {
+  getRandomSupplementsCheese(max: number): Supplement[] {
     let supplements: Supplement[] = [];
     let i: number = 0;
     
     while (i < max) {
-      let supplement: Supplement = this.supplements[Math.floor(Math.random() * this.supplements.length)];
+      let supplement: Supplement = this.supplementsCheese[Math.floor(Math.random() * this.supplementsCheese.length)];
+      if (!supplements.includes(supplement) && supplement.enabled) {
+        supplements.push(supplement);
+        i++;
+      }
+    }
+
+    return supplements;
+  }
+
+  getRandomSupplementsMeat(max: number): Supplement[] {
+    let supplements: Supplement[] = [];
+    let i: number = 0;
+    
+    while (i < max) {
+      let supplement: Supplement = this.supplementsMeat[Math.floor(Math.random() * this.supplementsMeat.length)];
+      if (!supplements.includes(supplement) && supplement.enabled) {
+        supplements.push(supplement);
+        i++;
+      }
+    }
+
+    return supplements;
+  }
+
+  getRandomSupplementsVegetal(max: number): Supplement[] {
+    let supplements: Supplement[] = [];
+    let i: number = 0;
+    
+    while (i < max) {
+      let supplement: Supplement = this.supplementsVegetal[Math.floor(Math.random() * this.supplementsVegetal.length)];
       if (!supplements.includes(supplement) && supplement.enabled) {
         supplements.push(supplement);
         i++;
@@ -126,7 +166,9 @@ export class TacosComponent implements OnInit {
 
     tacos.meats = this.getRandomMeats(tacos.meats.length, (tacos.meats[0].id == 0 && tacos.meats.length < 2 ? true : false));
     tacos.sauces = this.getRandomSauces(tacos.sauces.length);
-    tacos.supplements = this.getRandomSupplements(tacos.supplements.length);
+    tacos.supplementsCheese = this.getRandomSupplementsCheese(tacos.supplementsCheese.length);
+    tacos.supplementsMeat = this.getRandomSupplementsMeat(tacos.supplementsMeat.length);
+    tacos.supplementsVegetal = this.getRandomSupplementsVegetal(tacos.supplementsVegetal.length);
 
     this.tacosList.splice(tacosId, 1, tacos);  
   }
@@ -156,8 +198,16 @@ export class TacosComponent implements OnInit {
         this.sauces[id].enabled = (this.sauces[id].enabled ? false : true);
         break;
 
-      case "supplements":
-        this.supplements[id].enabled = (this.supplements[id].enabled ? false : true);
+      case "supplementsCheese":
+        this.supplementsCheese[id].enabled = (this.supplementsCheese[id].enabled ? false : true);
+        break;
+
+      case "supplementsMeat":
+        this.supplementsMeat[id].enabled = (this.supplementsMeat[id].enabled ? false : true);
+        break;
+
+      case "supplementsVegetal":
+        this.supplementsVegetal[id].enabled = (this.supplementsVegetal[id].enabled ? false : true);
         break;
     }
   }
@@ -169,7 +219,13 @@ export class TacosComponent implements OnInit {
     if (+this.sauceQuantity > this.sauces.filter(sauce => sauce.enabled).length)
       return false;
 
-    if (+this.supplementQuantity > this.supplements.filter(supplement => supplement.enabled).length)
+    if (+this.supplementCheeseQuantity > this.supplementsCheese.filter(supplement => supplement.enabled).length)
+      return false;
+
+    if (+this.supplementMeatQuantity > this.supplementsMeat.filter(supplement => supplement.enabled).length)
+      return false;
+
+    if (+this.supplementVegetalQuantity > this.supplementsVegetal.filter(supplement => supplement.enabled).length)
       return false;
     
     return true;

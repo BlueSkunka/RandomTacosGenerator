@@ -8,5 +8,7 @@ export interface Tacos {
     eater: string;
     meats: Meat[];
     sauces: Sauce[];
-    supplements: Supplement[];
+    supplementsCheese: Supplement[];
+    supplementsMeat: Supplement[];
+    supplementsVegetal: Supplement[];
 }

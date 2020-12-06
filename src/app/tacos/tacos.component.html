@@ -3,16 +3,21 @@
         <table class="tacos-ingredients-table">
             <thead>
                 <tr>
-                    <th colspan="3">
+                    <th colspan="6">
                         <h3>Liste des ingrédients</h3>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td><b>Viandes</b></td>
+                    <td><b>Sauces</b></td>
+                    <td colspan="3"><b>Suppléments</b></td>
+                </tr>
+                <tr>
 
                     <td class="tacos-ingredients-meats">
-                        <b>Viandes</b>
+                        <b class="invisible">a</b>
                         <div class="tacos-ingredients-meats-item" *ngFor="let meat of meats">
                             <label>
                                 <input type="checkbox" (click)="enableIngredient('meats', meat.id)" checked="checked"> 
@@ -22,7 +27,7 @@
                     </td>
 
                     <td class="tacos-ingredients-sauces">
-                        <b>Sauces</b>
+                        <b class="invisible">a</b>
                         <div class="tacos-ingredients-sauces-item" *ngFor="let sauce of sauces">
                             <label>
                                 <input type="checkbox" (click)="enableIngredient('sauces', sauce.id)" checked="checked">
@@ -31,11 +36,31 @@
                         </div>
                     </td>
 
-                    <td>
-                        <b>Suppléments</b>
-                        <div class="tacos-ingredients-supplements-item" *ngFor="let supplement of supplements">
+                    <td class="tacos-ingredients-supplements">
+                        <i>Fromages</i>
+                        <div class="tacos-ingredients-supplements-cheese-item" *ngFor="let supplement of supplementsCheese">
                             <label>
-                                <input type="checkbox" (click)="enableIngredient('supplements', supplement.id)" checked="checked">
+                                <input type="checkbox" (click)="enableIngredient('supplementsCheese', supplement.id)" checked="checked">
+                                {{supplement.name}}
+                            </label>
+                        </div>
+                    </td>
+                    
+                    <td class="tacos-ingredients-supplements">
+                        <i>Viandes</i>
+                        <div class="tacos-ingredients-supplements-meat-item" *ngFor="let supplement of supplementsMeat">
+                            <label>
+                                <input type="checkbox" (click)="enableIngredient('supplementsMeat', supplement.id)" checked="checked">
+                                {{supplement.name}}
+                            </label>
+                        </div>
+                    </td>
+
+                    <td class="tacos-ingredients-supplements">
+                        <i>Végétaux</i>
+                        <div class="tacos-ingredients-supplements-vegetal-item" *ngFor="let supplement of supplementsVegetal">
+                            <label>
+                                <input type="checkbox" (click)="enableIngredient('supplementsVegetal', supplement.id)" checked="checked">
                                 {{supplement.name}}
                             </label>
                         </div>
@@ -52,7 +77,7 @@
 
         <div class="selectors-container">
             <div class="meat-selector selectors-item">
-                <p>Sélectionner un nombre de viandes:</p>
+                <p>Nombre de viandes:</p>
 
                 <div>
                     <input type="radio" name="meat-quantity" id="meat-one" value="1" [(ngModel)]="meatQuantity">
@@ -77,7 +102,7 @@
             </div>
 
             <div class="sauce-selector selectors-item">
-                <p>Sélectionner un nombre de sauces:</p>
+                <p>Nombre de sauces:</p>
 
                 <div>
                     <input type="radio" name="sauce-quantity" id="sauce-one" value="1" [(ngModel)]="sauceQuantity">
@@ -96,32 +121,80 @@
 
             </div>
 
-            <div class="supplement-selector selectors-item">
-                <p>Sélectionner un nombre de suppléments:</p>
+            <div class="supplement-cheese-selector selectors-item">
+                <p>Nombre de suppléments fromage:</p>
 
                 <div>
-                    <input type="radio" name="supplement-quantity" id="supplement-none" value="0" [(ngModel)]="supplementQuantity">
-                    <label for="supplement-none">Aucun</label>
+                    <input type="radio" name="supplement-cheese-quantity" id="supplement-cheese-none" value="0" [(ngModel)]="supplementCheeseQuantity">
+                    <label for="supplement-cheese-none">Aucun</label>
                 </div>
 
                 <div>
-                    <input type="radio" name="supplement-quantity" id="supplement-one" value="1" [(ngModel)]="supplementQuantity">
-                    <label for="supplement-one">1</label>
+                    <input type="radio" name="supplement-cheese-quantity" id="supplement-cheese-one" value="1" [(ngModel)]="supplementCheeseQuantity">
+                    <label for="supplement-cheese-one">1</label>
                 </div>
 
                 <div>
-                    <input type="radio" name="supplement-quantity" id="supplement-two" value="2" [(ngModel)]="supplementQuantity">
-                    <label for="supplement-two">2</label>
+                    <input type="radio" name="supplement-cheese-quantity" id="supplement-cheese-two" value="2" [(ngModel)]="supplementCheeseQuantity">
+                    <label for="supplement-cheese-two">2</label>
                 </div>
 
                 <div>
-                    <input type="radio" name="supplement-quantity" id="supplement-three" value="3" [(ngModel)]="supplementQuantity">
-                    <label for="supplement-three">3</label>
+                    <input type="radio" name="supplement-cheese-quantity" id="supplement-cheese-three" value="3" [(ngModel)]="supplementCheeseQuantity">
+                    <label for="supplement-cheese-three">3</label>
                 </div>
             </div>
+
+            <div class="supplement-meat-selector selectors-item">
+                <p>Nombre de suppléments viande:</p>
+
+                <div>
+                    <input type="radio" name="supplement-meat-quantity" id="supplement-meat-none" value="0" [(ngModel)]="supplementMeatQuantity">
+                    <label for="supplement-meat-none">Aucun</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="supplement-meat-quantity" id="supplement-meat-one" value="1" [(ngModel)]="supplementMeatQuantity">
+                    <label for="supplement-meat-one">1</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="supplement-meat-quantity" id="supplement-meat-two" value="2" [(ngModel)]="supplementMeatQuantity">
+                    <label for="supplement-meat-two">2</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="supplement-meat-quantity" id="supplement-meat-three" value="3" [(ngModel)]="supplementMeatQuantity">
+                    <label for="supplement-meat-three">3</label>
+                </div>
+            </div>
+
+            <div class="supplement-vegetal-selector selectors-item">
+                <p>Nombre de suppléments végétal:</p>
+
+                <div>
+                    <input type="radio" name="supplement-vegetal-quantity" id="supplement-vegetal-none" value="0" [(ngModel)]="supplementVegetalQuantity">
+                    <label for="supplement-vegetal-none">Aucun</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="supplement-vegetal-quantity" id="supplement-vegetal-one" value="1" [(ngModel)]="supplementVegetalQuantity">
+                    <label for="supplement-vegetal-one">1</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="supplement-vegetal-quantity" id="supplement-vegetal-two" value="2" [(ngModel)]="supplementVegetalQuantity">
+                    <label for="supplement-vegetal-two">2</label>
+                </div>
+
+                <div>
+                    <input type="radio" name="supplement-vegetal-quantity" id="supplement-vegetal-three" value="3" [(ngModel)]="supplementVegetalQuantity">
+                    <label for="supplement-vegetal-three">3</label>
+                </div>
+            </div>
+
         </div> 
 
-        <p>Tacos {{meatQuantity == "0" ? 'Végétarien' : meatQuantity}} viandes, {{sauceQuantity}} sauce et {{supplementQuantity}} suppléments</p>
         <button type="button" class="btn-generate-tacos" id="btn-generate" (click)="onGenerate()">Générer</button> 
     </div>
     
@@ -140,7 +213,9 @@
                         <span *ngFor="let sauce of tacos.sauces; last as isLast">{{sauce.name}}{{isLast ? '' : ', '}}</span>
                     </td>
                     <td>
-                        <span *ngFor="let supplement of tacos.supplements; last as isLast">{{supplement.name}}{{isLast ? '' : ', '}}</span>
+                        <span *ngFor="let supplement of tacos.supplementsCheese; last as isLast">{{supplement.name}}{{isLast ? '' : ', '}}</span>&nbsp;
+                        <span *ngFor="let supplement of tacos.supplementsMeat; last as isLast">{{supplement.name}}{{isLast ? '' : ', '}}</span>&nbsp;
+                        <span *ngFor="let supplement of tacos.supplementsVegetal; last as isLast">{{supplement.name}}{{isLast ? '' : ', '}}</span>&nbsp;
                     </td>
                     <td>
                         <button type="button" class="btn-regenerate-tacos" id="" (click)="onRegenerate(tacos.id)">Regénérer</button>
